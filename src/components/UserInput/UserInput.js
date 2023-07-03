@@ -7,22 +7,24 @@ const initialUserInput = {
   duration: 10,
 };
 
-const UserInput = () => {
+const UserInput = (props) => {
   const [userInput, setUserInput] = useState(initialUserInput);
 
   const submitHandler = (event) => {
     event.preventDefault();
+
+    props.onCalculate(userInput);
   };
 
   const resetHandler = () => {
     setUserInput(initialUserInput);
   };
 
-  const changeHandler = (input, value) => {
+  const inputChangeHandler = (input, value) => {
     setUserInput((prevInput) => {
       return {
         ...prevInput,
-        [input]: value,
+        [input]: +value,
       };
     });
   };
@@ -34,7 +36,7 @@ const UserInput = () => {
           <label htmlFor="current-savings">Current Savings ($)</label>
           <input
             onChange={(event) =>
-              changeHandler("current-savings", event.target.value)
+              inputChangeHandler("current-savings", event.target.value)
             }
             value={userInput["current-savings"]}
             type="number"
@@ -45,7 +47,7 @@ const UserInput = () => {
           <label htmlFor="yearly-contribution">Yearly Savings ($)</label>
           <input
             onChange={(event) =>
-              changeHandler("yearly-contribution", event.target.value)
+              inputChangeHandler("yearly-contribution", event.target.value)
             }
             value={userInput["yearly-contribution"]}
             type="number"
@@ -60,7 +62,7 @@ const UserInput = () => {
           </label>
           <input
             onChange={(event) =>
-              changeHandler("expected-retur", event.target.value)
+              inputChangeHandler("expected-return", event.target.value)
             }
             value={userInput["expected-return"]}
             type="number"
@@ -70,7 +72,9 @@ const UserInput = () => {
         <p>
           <label htmlFor="duration">Investment Duration (years)</label>
           <input
-            onChange={(event) => changeHandler("duration", event.target.value)}
+            onChange={(event) =>
+              inputChangeHandler("duration", event.target.value)
+            }
             value={userInput["duration"]}
             type="number"
             id="duration"
